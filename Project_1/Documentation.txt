@@ -1,0 +1,7 @@
+Day 1 - Wednesday 9th
+I am configuring the Unity project and making sure everything plays nicely with git. Incorperating simple movement.
+
+
+Credits: 
+
+Character Controller - Brackeys
