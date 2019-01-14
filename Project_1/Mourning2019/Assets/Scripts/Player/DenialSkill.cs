@@ -5,7 +5,6 @@ using UnityEngine;
 public class DenialSkill : MonoBehaviour
 {
 
-    enum FireFlies { None, Denial, Anger, Bargaining, Depression, Acceptance };
     enum SkillStatus { None, ButtonDown, ButtonUp };
 
     public GameObject barrierPrefab;
