@@ -128,12 +128,16 @@ public class DenialSkill : MonoBehaviour
         }
     }
 
+
+    private void OnDisable() {
+        foreach (GameObject node in barriers) {
+            Destroy(node);
+        }
+        barriers.Clear();
+    }
     // Update is called once per frame
     void Update()
     {
         CastDenial();
-//        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-//        Vector2 worldPoint2d = new Vector2(worldPoint.x, worldPoint.y);
-//        print(worldPoint2d);
     }
 }

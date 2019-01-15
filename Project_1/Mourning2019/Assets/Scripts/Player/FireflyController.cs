@@ -9,10 +9,12 @@ public class FireflyController : MonoBehaviour
     Color denialColor = Color.blue;
     Color angerColor = Color.red;
     Color bargainingColor = Color.green;
+    Color acceptanceColor = Color.white;
 
     DenialSkill denialSkill;
     AngerSkill angerSkill;
     BargainingSkill bargainingSkill;
+    AcceptanceSkill acceptanceSkill;
 
     GameObject fireflyParticlesGO;
     ParticleSystem firelyParticles;
@@ -29,6 +31,7 @@ public class FireflyController : MonoBehaviour
         denialSkill = GetComponent<DenialSkill>();
         angerSkill = GetComponent<AngerSkill>();
         bargainingSkill = GetComponent<BargainingSkill>();
+        acceptanceSkill = GetComponent<AcceptanceSkill>();
 
         mainCamera = Camera.main;
 
@@ -58,6 +61,10 @@ public class FireflyController : MonoBehaviour
             ChangeFirefly(FireflyState.Bargaining);
             print("Changed the state to Bargaining.");
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4)) {
+            ChangeFirefly(FireflyState.Acceptance);
+            print("Changed the state to Bargaining.");
+        }
     }
     void ChangeFirefly(FireflyState targetState) {
         var main = firelyParticles.main;
@@ -77,6 +84,11 @@ public class FireflyController : MonoBehaviour
                 main.startColor = bargainingColor;
                 bargainingSkill.enabled = true;
                 break;
+            case FireflyState.Acceptance:
+                DisableAllSkills();
+                main.startColor = acceptanceColor;
+                acceptanceSkill.enabled = true;
+                break;
             case FireflyState.None:
                 DisableAllSkills();
                 break;
@@ -87,6 +99,7 @@ public class FireflyController : MonoBehaviour
         denialSkill.enabled = false;
         angerSkill.enabled = false;
         bargainingSkill.enabled = false;
+        acceptanceSkill.enabled = false;
     }
 
     // Update is called once per frame

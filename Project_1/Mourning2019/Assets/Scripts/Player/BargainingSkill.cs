@@ -46,6 +46,11 @@ public class BargainingSkill: MonoBehaviour {
         }
     }
 
+    private void OnDisable() {
+        skillActive = false;
+        targetRigidbody.constraints = RigidbodyConstraints2D.None;
+    }
+
     private void GetTarget() {
         if (Input.GetMouseButton(0)) {
             raycastHit = Physics2D.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition).origin,
