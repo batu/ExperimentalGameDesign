@@ -42,13 +42,16 @@ public class BargainingSkill: MonoBehaviour {
     private void StopMovingTarget() {
         if (Input.GetMouseButtonUp(0)) {
             skillActive = false;
-            targetRigidbody.constraints = RigidbodyConstraints2D.None;
+            if(targetRigidbody != null) 
+                targetRigidbody.constraints = RigidbodyConstraints2D.None;
         }
     }
 
     private void OnDisable() {
         skillActive = false;
-        targetRigidbody.constraints = RigidbodyConstraints2D.None;
+        if(targetRigidbody != null) {
+            targetRigidbody.constraints = RigidbodyConstraints2D.None;
+        }
     }
 
     private void GetTarget() {

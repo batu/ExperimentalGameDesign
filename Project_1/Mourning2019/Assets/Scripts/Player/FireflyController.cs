@@ -11,6 +11,37 @@ public class FireflyController : MonoBehaviour
     Color bargainingColor = Color.green;
     Color acceptanceColor = Color.white;
 
+    bool denialGained = false;
+    bool angerGained = false;
+    bool bargainingGained = false;
+    bool acceptanceGained = false;
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        switch (collision.transform.name) {
+            case "DenialFirefly":
+                denialGained = true;
+                ChangeFirefly(FireflyState.Denial);
+                Destroy(collision.transform.gameObject);
+                break;
+            case "AngerFirefly":
+                angerGained = true;
+                ChangeFirefly(FireflyState.Anger);
+                Destroy(collision.transform.gameObject);
+                break;
+            case "BargainingFirefly":
+                bargainingGained = true;
+                ChangeFirefly(FireflyState.Bargaining);
+                Destroy(collision.transform.gameObject);
+                break;
+            case "AcceptanceFirefly":
+                denialGained = true;
+                ChangeFirefly(FireflyState.Acceptance);
+                Destroy(collision.transform.gameObject);
+                break;
+
+        }
+    }
+
     DenialSkill denialSkill;
     AngerSkill angerSkill;
     BargainingSkill bargainingSkill;
@@ -21,7 +52,7 @@ public class FireflyController : MonoBehaviour
 
     Camera mainCamera;
 
-    FireflyState activeFirefly = FireflyState.Denial;
+    FireflyState activeFirefly = FireflyState.None;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +66,7 @@ public class FireflyController : MonoBehaviour
 
         mainCamera = Camera.main;
 
-        ChangeFirefly(FireflyState.Denial);
+        ChangeFirefly(FireflyState.None);
     }
 
 
@@ -49,19 +80,19 @@ public class FireflyController : MonoBehaviour
     }
 
     void ChangeFireflyInputDetector() {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && denialGained) {
             ChangeFirefly(FireflyState.Denial);
             print("Changed the state to Denial.");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) {
+        if (Input.GetKeyDown(KeyCode.Alpha2) && angerGained) {
             ChangeFirefly(FireflyState.Anger);
             print("Changed the state to Anger.");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) {
+        if (Input.GetKeyDown(KeyCode.Alpha3) && bargainingGained) {
             ChangeFirefly(FireflyState.Bargaining);
             print("Changed the state to Bargaining.");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4)) {
+        if (Input.GetKeyDown(KeyCode.Alpha4) && acceptanceGained) {
             ChangeFirefly(FireflyState.Acceptance);
             print("Changed the state to Bargaining.");
         }
@@ -69,6 +100,10 @@ public class FireflyController : MonoBehaviour
     void ChangeFirefly(FireflyState targetState) {
         var main = firelyParticles.main;
         switch (targetState) {
+            case FireflyState.None:
+                DisableAllSkills();
+                main.startColor = new Color(0,0,0,0);
+                break;
             case FireflyState.Denial:
                 DisableAllSkills();
                 main.startColor = denialColor;
@@ -88,9 +123,6 @@ public class FireflyController : MonoBehaviour
                 DisableAllSkills();
                 main.startColor = acceptanceColor;
                 acceptanceSkill.enabled = true;
-                break;
-            case FireflyState.None:
-                DisableAllSkills();
                 break;
         }
     }
