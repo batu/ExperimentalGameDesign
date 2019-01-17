@@ -7,6 +7,10 @@ TagManager:
   - FireFlyParticles
   - Node
   - Obstruction
+  - RendererCamera
+  - DenialCamera
+  - AngerCamera
+  - BargainingCamera
   layers:
   - Default
   - TransparentFX
@@ -21,9 +25,9 @@ TagManager:
   - Bolt
   - Breakable
   - Obstruction
-  - 
-  - 
-  - 
+  - DenialExposition
+  - AngerExposition
+  - BargainingExposition
   - 
   - 
   - 
