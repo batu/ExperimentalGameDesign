@@ -7,13 +7,21 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
 
+    public string animationName;
+    Animator anim;
+
+    public void CallThisFromButton() {
+        anim.Play(animationName);
+    }
+
     void Awake() {
         if (instance == null) {
             instance = this;
         } else if (instance != this) { 
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        Cursor.lockState = CursorLockMode.Confined;
+        anim = GetComponent<Animator>();
     }
 
     public void TransitionToLevel() {
