@@ -6,7 +6,7 @@ public class FireflyController : MonoBehaviour
 {
     enum FireflyState { None, Denial, Anger, Bargaining, Depression, Acceptance };
 
-    Color denialColor = Color.blue;
+    Color denialColor = new Color(0.1741573f, 0.8314608f, 1f, 1f);
     Color angerColor = Color.red;
     Color bargainingColor = Color.green;
     Color acceptanceColor = Color.white;
@@ -21,30 +21,32 @@ public class FireflyController : MonoBehaviour
     bool bargainingGained = false;
     bool acceptanceGained = false;
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        switch (collision.transform.name) {
-            case "DenialFirefly":
+    public void ActivateFirefly(string firefly) {
+        print("In this shit!");
+
+        switch (firefly) {
+            case "Denial":
+                print("Deninal activated");
                 denialGained = true;
                 ChangeFirefly(FireflyState.Denial);
-                Destroy(collision.transform.gameObject);
                 break;
-            case "AngerFirefly":
+            case "Anger":
                 angerGained = true;
                 ChangeFirefly(FireflyState.Anger);
-                Destroy(collision.transform.gameObject);
                 break;
-            case "BargainingFirefly":
+            case "Bargaining":
                 bargainingGained = true;
                 ChangeFirefly(FireflyState.Bargaining);
-                Destroy(collision.transform.gameObject);
                 break;
-            case "AcceptanceFirefly":
-                denialGained = true;
+            case "Acceptance":
+                acceptanceGained = true;
                 ChangeFirefly(FireflyState.Acceptance);
-                Destroy(collision.transform.gameObject);
                 break;
-
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        
     }
 
     DenialSkill denialSkill;
@@ -108,42 +110,35 @@ public class FireflyController : MonoBehaviour
     }
     void ChangeFirefly(FireflyState targetState) {
         var main = firelyParticles.main;
+        DisableAllSkills();
+        DisableAllCameras();
         switch (targetState) {
             case FireflyState.None:
-                DisableAllSkills();
-                DisableAllCameras();
                 nullCam.SetActive(true);
                 main.startColor = new Color(0,0,0,0);
                 break;
             case FireflyState.Denial:
-                DisableAllSkills();
-                DisableAllCameras();
                 denialCam.SetActive(true);
                 main.startColor = denialColor;
                 denialSkill.enabled = true;
                 break;
             case FireflyState.Anger:
-                DisableAllSkills();
-                DisableAllCameras();
                 angerCam.SetActive(true);
                 main.startColor = angerColor;
                 angerSkill.enabled = true;
                 break;
             case FireflyState.Bargaining:
-                DisableAllSkills();
-                DisableAllCameras();
                 bargainingCam.SetActive(true);
                 main.startColor = bargainingColor;
                 bargainingSkill.enabled = true;
                 break;
             case FireflyState.Acceptance:
-                DisableAllSkills();
-                DisableAllCameras();
                 nullCam.SetActive(true);
                 main.startColor = acceptanceColor;
                 acceptanceSkill.enabled = true;
                 break;
         }
+        firelyParticles.Play();
     }
 
     void DisableAllSkills() {

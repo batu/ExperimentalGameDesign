@@ -112,6 +112,11 @@ public class DenialSkill : MonoBehaviour
 
 
     void SpawnBarrier(Vector3 startPosition, Vector3 endPosition) {
+        if (startPosition.x > endPosition.x) {
+            Vector3 tempVar = startPosition;
+            startPosition = endPosition;
+            endPosition = tempVar;
+        }
         Vector3 midPoint = (startPosition + endPosition) / 2;
         GameObject barrier = Instantiate(barrierPrefab, midPoint, Quaternion.identity) as GameObject;
 
