@@ -27,8 +27,21 @@ public class AngerBoltBehavior : MonoBehaviour {
         Destroy(gameObject, despawnTimer);
     }
 
+
+    void ExplosionForce(Vector3 center, float radius, float force) {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(center, radius);
+        foreach(Collider2D col in hitColliders) {
+            if(col.gameObject.layer == breakableLayer) { 
+            Rigidbody2D theRB = col.gameObject.GetComponent<Rigidbody2D>();
+            Vector2 direction = col.transform.position - center;
+            theRB.AddForce(direction * force, ForceMode2D.Impulse);
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.layer == breakableLayer) {
+            ExplosionForce(collision.transform.position, 6f, 5f);
             Destroy(collision.gameObject);
         }
         Destroy(gameObject);

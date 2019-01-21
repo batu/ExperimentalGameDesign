@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Denial.unity
     guid: 20790f0d40b18aa46850ae12ecb392d0
+  - enabled: 1
+    path: Assets/Scenes/Levels/Anger.unity
+    guid: c4967edcecde4274ea81c049b77c8c89
+  - enabled: 1
+    path: Assets/Scenes/Levels/Bargaining.unity
+    guid: c42e5fabf9adc0b40b40445e1b32a449
   m_configObjects: {}

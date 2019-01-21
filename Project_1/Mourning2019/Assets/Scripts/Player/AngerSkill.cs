@@ -16,6 +16,8 @@ public class AngerSkill : MonoBehaviour
     public float recoilStrenght = 5f;
     Rigidbody2D rb;
 
+    public bool explosion;
+
     AngerBoltBehavior boltBehavior;
     void Start()
     {
