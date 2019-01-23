@@ -8,7 +8,7 @@ public class DenialSkill : MonoBehaviour
     enum SkillStatus { None, ButtonDown, ButtonUp };
 
     public GameObject barrierPrefab;
-    public float minimumBarrierLenght = 0.75f;
+    float minimumBarrierLenght = 0.25f;
     //    public float maximumBarrierLength;
     public int maximumBarierCount = 3;
 

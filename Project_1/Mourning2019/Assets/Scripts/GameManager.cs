@@ -7,12 +7,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
 
-    public string animationName;
-    Animator anim;
-
-    public void CallThisFromButton() {
-        anim.Play(animationName);
-    }
+    public bool depression = false;
 
     void Awake() {
         if (instance == null) {
@@ -21,7 +16,6 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
         Cursor.lockState = CursorLockMode.Confined;
-        anim = GetComponent<Animator>();
     }
 
     public void TransitionToLevel() {
@@ -33,7 +27,8 @@ public class GameManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(FadeInFadeOut.TransitionLevel(true));
+        if(!depression)
+            StartCoroutine(FadeInFadeOut.TransitionLevel(true));
     }
 
     // Update is called once per frame

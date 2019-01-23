@@ -12,7 +12,7 @@ public class AcceptanceSkill : MonoBehaviour
     public float nodeSwitchDistance = 0.1f;
     public float nodeEscapeDistance = 1f;
     public float nextNodeDistance = 0.75f; 
-    public float tripTime = 0.5f;
+    public float tripTime = 2f;
     public int maximumNodes;
 
     Camera mainCamera;
@@ -38,7 +38,6 @@ public class AcceptanceSkill : MonoBehaviour
     float startTime;
     void ActivateNode(GameObject node) {
         activeNodeIndex = nodesList.IndexOf(node);
-        print(activeNodeIndex);
         activeNode = node;
         rb.gravityScale = 0;
         rb.velocity = rb.velocity / 10;
@@ -48,7 +47,7 @@ public class AcceptanceSkill : MonoBehaviour
     void NodePull() {
         if(activeNode != null) { 
             Vector3 nextNodePosition = activeNode.transform.position;
-            float currentPercentage = (Time.time - startTime) / (tripTime * 100);
+            float currentPercentage = (Time.time - startTime) / (tripTime * 100 * ((activeNodeIndex+1)/3f));
             if ((transform.position - nextNodePosition).sqrMagnitude > nodeSwitchDistance * nodeSwitchDistance) {
                 Vector3 smoothedPosition = Vector3.Lerp(transform.position, nextNodePosition, currentPercentage);
                 transform.position = smoothedPosition;
@@ -62,8 +61,6 @@ public class AcceptanceSkill : MonoBehaviour
         if (activeNodeIndex < nodesList.Count && activeNodeIndex != -1) {
             activeNode = nodesList[activeNodeIndex];
             activeNodeIndex++;
-        } else {
-            Detach();
         }
     }
 

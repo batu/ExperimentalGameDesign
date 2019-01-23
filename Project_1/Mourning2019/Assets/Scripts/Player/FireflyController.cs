@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireflyController : MonoBehaviour
 {
-    enum FireflyState { None, Denial, Anger, Bargaining, Depression, Acceptance };
+    public enum FireflyState { None, Denial, Anger, Bargaining, Depression, Acceptance };
 
     Color denialColor = new Color(0.1741573f, 0.8314608f, 1f, 1f);
     Color angerColor = Color.red;
@@ -16,9 +16,14 @@ public class FireflyController : MonoBehaviour
     GameObject bargainingCam;
     GameObject nullCam;
 
-    bool denialGained = false;
-    bool angerGained = false;
-    bool bargainingGained = false;
+    public FireflyState startFireflyState = FireflyState.None; 
+
+    [HideInInspector]
+    public bool denialGained = false;
+    [HideInInspector]
+    public bool angerGained = false;
+    [HideInInspector]
+    public bool bargainingGained = false;
     bool acceptanceGained = false;
 
     public void ActivateFirefly(string firefly) {
@@ -77,7 +82,23 @@ public class FireflyController : MonoBehaviour
         nullCam = GameObject.Find("Null Cam");
         mainCamera = Camera.main;
 
-        ChangeFirefly(FireflyState.None);
+        switch (startFireflyState) {
+            case FireflyState.None:
+                ChangeFirefly(FireflyState.None);
+                break;
+            case FireflyState.Denial:
+                ChangeFirefly(FireflyState.Denial);
+                break;
+            case FireflyState.Anger:
+                ChangeFirefly(FireflyState.Anger);
+                break;
+            case FireflyState.Bargaining:
+                ChangeFirefly(FireflyState.Bargaining);
+                break;
+            case FireflyState.Acceptance:
+                ChangeFirefly(FireflyState.Acceptance);
+                break;
+        }
     }
 
 
@@ -133,7 +154,6 @@ public class FireflyController : MonoBehaviour
                 bargainingSkill.enabled = true;
                 break;
             case FireflyState.Acceptance:
-                nullCam.SetActive(true);
                 main.startColor = acceptanceColor;
                 acceptanceSkill.enabled = true;
                 break;
@@ -149,10 +169,14 @@ public class FireflyController : MonoBehaviour
     }
 
     void DisableAllCameras() {
-        nullCam.SetActive(false);
-        denialCam.SetActive(false);
-        angerCam.SetActive(false);
-        bargainingCam.SetActive(false);
+        if(nullCam)
+            nullCam.SetActive(false);
+        if (denialCam)
+            denialCam.SetActive(false);
+        if (angerCam)
+            angerCam.SetActive(false);
+        if (bargainingCam)
+            bargainingCam.SetActive(false);
     }
 
     // Update is called once per frame

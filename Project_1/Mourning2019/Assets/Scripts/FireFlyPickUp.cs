@@ -11,11 +11,15 @@ public class FireFlyPickUp : MonoBehaviour
     public GameObject cage;
 
     public ParticleSystem pickUpPS;
-    public ParticleSystem indicatorPS;
 
     bool activated = false;
     Collider2D trigger;
     FireflyController _fireflyController;
+
+    public bool inDepression = false;
+    public SpriteRenderer wall;
+    public GameObject other1 = null;
+    public GameObject other2 = null;
 
     private void Start() {
         _fireflyController = GameObject.Find("Player").GetComponent<FireflyController>();
@@ -66,6 +70,7 @@ public class FireFlyPickUp : MonoBehaviour
     }
 
     void FadeInFirefly() {
+        print("firefly activated.");
         string whichFirefly = null;
         switch (fireflyPickup) {
             case Firefly.Denial:
@@ -84,10 +89,49 @@ public class FireFlyPickUp : MonoBehaviour
         _fireflyController.ActivateFirefly(whichFirefly);
     }
 
+    IEnumerator StartDepressionPickUpSequence() {
+        StartCoroutine(FadeInCage());
+        yield return new WaitForSeconds(0.5f);
+        other1.transform.GetChild(0).GetComponent<Animator>().enabled = true;
+        yield return new WaitForSeconds(0.25f);
+        other2.transform.GetChild(0).GetComponent<Animator>().enabled = true;
+        other1.GetComponent<Collider2D>().enabled = false;
+        other2.GetComponent<Collider2D>().enabled = false;
+        if (fireflyPickup == Firefly.Denial) {
+            for (float i = 1; i >= 0; i -= Time.deltaTime / 2) {
+                // set color with i as alpha
+                wall.color = new Color(i, i, 1, 1);
+                yield return null;
+            }
+        }
+        if (fireflyPickup == Firefly.Anger) {
+            for (float i = 1; i >= 0; i -= Time.deltaTime / 2) {
+                // set color with i as alpha
+                wall.color = new Color(1, i, i, 1);
+                yield return null;
+            }
+        }
+        if (fireflyPickup == Firefly.Bargaining) {
+            for (float i = 1; i >= 0; i -= Time.deltaTime / 2) {
+                // set color with i as alpha
+                wall.color = new Color(i, 1, i, 1);
+                yield return null;
+            }
+        }
+        FadeInFirefly();
+
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (inside && Input.GetKeyDown(KeyCode.E) && !activated) {
+        if (inDepression && inside && Input.GetKeyDown(KeyCode.E) && !activated) {
+            trigger.enabled = false;
+            activated = true;
+            StartCoroutine(StartDepressionPickUpSequence());
+        }
+
+        if (!inDepression && inside && Input.GetKeyDown(KeyCode.E) && !activated) {
             trigger.enabled = false;
             activated = true;
             StartPickUpSequence();
